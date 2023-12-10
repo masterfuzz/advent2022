@@ -1,4 +1,5 @@
-from typing import Any, List
+from collections.abc import Iterable
+from typing import Any
 
 def take(it, n):
     return [next(it) for _ in range(n)]
@@ -19,11 +20,11 @@ def to_parser(p):
     if p == Any: return ParserSkip()
     if isinstance(p, ParserBase): return p
     if callable(p): return FParser(p)
-    if type(p) == list or type(p) == tuple: return SeqParser(p)
+    if type(p) == Iterable: return SeqParser(p)
     raise TypeError(f"Can't coerce {type(p)} into a Parser")
 
 class SeqParser(ParserBase):
-    def __init__(self, sequence: List[ParserBase]) -> None:
+    def __init__(self, sequence: Iterable) -> None:
         self.seq = [to_parser(p) for p in sequence]
     
     def parse(self, fh):
