@@ -5,6 +5,7 @@ from advent.parser import Parser, to_parser
 
 class Advent:
     PARSER = None
+    PARSER_2 = None
 
     def __init__(self) -> None:
         self.day = type(self).__name__[-2:]
@@ -18,11 +19,16 @@ class Advent:
             return to_parser(self.PARSER).parse(fh)
         return fh.read().splitlines()
 
+    def parse_2(self, fh: TextIOWrapper):
+        if self.PARSER_2:
+            return to_parser(self.PARSER_2).parse(fh)
+        return self.parse(fh)
+
     def test(self):
         with open(f"inputs/{self.day}_small") as fh:
             rows1 = self.parse(fh)
         with open(f"inputs/{self.day}_small") as fh:
-            rows2 = self.parse(fh)
+            rows2 = self.parse_2(fh)
         ans = []
         if os.path.exists(f"answers/{self.day}_small"):
             with open(f"answers/{self.day}_small") as fh:
@@ -56,7 +62,7 @@ class Advent:
         with open(fname) as fh:
             rows1 = self.parse(fh)
         with open(fname) as fh:
-            rows2 = self.parse(fh)
+            rows2 = self.parse_2(fh)
         print("Part 1:", self.part_one(rows1))
         print("Part 2:", self.part_two(rows2))
 

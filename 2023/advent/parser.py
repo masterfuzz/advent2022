@@ -20,7 +20,7 @@ def to_parser(p):
     if p == Any: return ParserSkip()
     if isinstance(p, ParserBase): return p
     if callable(p): return FParser(p)
-    if type(p) == Iterable: return SeqParser(p)
+    if isinstance(p, Iterable): return SeqParser(p)
     raise TypeError(f"Can't coerce {type(p)} into a Parser")
 
 class SeqParser(ParserBase):
