@@ -1,6 +1,7 @@
 from io import TextIOWrapper
 import os
 from advent.parser import Parser, to_parser
+from traceback import print_exc
 
 
 class Advent:
@@ -63,8 +64,19 @@ class Advent:
             rows1 = self.parse(fh)
         with open(fname) as fh:
             rows2 = self.parse_2(fh)
-        print("Part 1:", self.part_one(rows1))
-        print("Part 2:", self.part_two(rows2))
+        try:
+            p1 = self.part_one(rows1)
+            print("Part 1:", p1)
+        except Exception as e:
+            print("Part 1:")
+            print_exc()
+
+        try:
+            p2 = self.part_two(rows2)
+            print("Part 2:", p2)
+        except Exception as e:
+            print("Part 2:")
+            print_exc()
 
 
 def loop_parser(sub_parser, fh):
